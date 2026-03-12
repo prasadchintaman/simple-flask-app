@@ -8,7 +8,7 @@ stages {
 
 stage('Checkout') {
 steps {
-git 'https://github.com/your-username/flask-app.git'
+git 'https://github.com/prasadchintaman/simple-flask-app.git'
 }
 }
 
