@@ -4,6 +4,11 @@ pipeline {
 
     agent any
 
+    environment {
+        IMAGE_NAME = "flask-app"
+        IMAGE_TAG  = "${BUILD_NUMBER}"
+    }
+
     stages {
 
         stage('Checkout Code') {
@@ -14,19 +19,19 @@ pipeline {
 
         stage('SonarQube Code Quality') {
             steps {
-                sonarScan("flask-app")
+                sonarScan("${IMAGE_NAME}")
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build & Push Docker Image') {
             steps {
-                buildDocker("flask-app")
+                buildDocker("${IMAGE_NAME}:${IMAGE_TAG}")
             }
         }
 
         stage('Deploy Container') {
             steps {
-                deployContainer("flask-container","flask-app")
+                deployContainer("flask-container","${IMAGE_NAME}:${IMAGE_TAG}")
             }
         }
 
